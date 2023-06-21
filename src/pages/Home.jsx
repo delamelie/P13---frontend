@@ -15,7 +15,7 @@ export default function Home() {
       <MainWrapper>
         <Hero />
         <Features>
-          <h2 class="sr-only">Features</h2>
+          <h2 className="sr-only">Features</h2>
           <Feature
             icon={iconChat}
             title={"You are our #1 priority"}

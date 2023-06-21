@@ -3,7 +3,7 @@ import styled from "styled-components";
 export default function Account({ title, amount }) {
   return (
     <div>
-      <h2 class="sr-only">Accounts</h2>
+      <h2 className="sr-only">Accounts</h2>
 
       <AccountItem>
         <AccountContentWrapper>

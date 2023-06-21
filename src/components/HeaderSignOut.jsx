@@ -3,7 +3,10 @@ import styled from "styled-components";
 import argentBankLogo from "../assets/argentBankLogo.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleUser,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Header() {
   return (
@@ -13,10 +16,14 @@ export default function Header() {
         <h1 className="sr-only">Argent Bank</h1>
       </LogoNavLink>
       <div>
-        <SignInButton to="/login">
+        <Button to="/profile">
           <StyledFontAwesomeIcon icon={faCircleUser} />
-          Sign In
-        </SignInButton>
+          Tony
+        </Button>
+        <SignOutButton to="/">
+          <FontAwesomeIcon icon={faRightFromBracket} />
+          Sign Out
+        </SignOutButton>
       </div>
     </HeaderNav>
   );
@@ -34,6 +41,7 @@ const LogoNavLink = styled(NavLink)`
   align-items: center;
   //   font-weight: bold;
   //   color: #2c3e50;
+  //
 `;
 
 const Logo = styled.img`
@@ -41,7 +49,17 @@ const Logo = styled.img`
   width: 200px;
 `;
 
-const SignInButton = styled(Link)`
+const SignOutButton = styled(Link)`
+  text-decoration: none;
+  margin-right: 0.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const Button = styled(Link)`
   text-decoration: none;
   margin-right: 0.5rem;
   font-weight: bold;

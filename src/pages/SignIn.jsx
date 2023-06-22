@@ -1,12 +1,12 @@
 import Header from "../components/Header";
-import SignInModal from "../components/SignInModal";
+import SignInForm from "../components/SignInForm";
 import Footer from "../components/Footer";
 
 export default function SignIn() {
   return (
     <div>
       <Header />
-      <SignInModal />
+      <SignInForm />
       <Footer />
     </div>
   );

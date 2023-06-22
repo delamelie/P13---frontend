@@ -1,48 +1,53 @@
 import { useState, useEffect } from "react";
-import { useParams, Navigate, Link } from "react-router-dom";
+import axios from "../api.js";
 
 import HeaderSignOut from "../components/HeaderSignOut";
 import AccountHeader from "../components/AccountHeader";
 import Account from "../components/Account";
 import Footer from "../components/Footer";
-import displayProfile from "../api.js";
 
 export default function User() {
-  const [data, setData] = useState([]);
-
-  // useEffect(() => {
-  //   // fetch(`http://localhost:3001/api/v1/user/profile`)
-  //   //   .then((response) => response.json())
-  //   //   .then((data) => {
-  //   //     setData(data);
-  //   //     console.log(data);
-  //   //   })
-  //   //   .catch((error) => console.log(error));
-  // }, []);
-  // // const [userData, setUserData] = useState(null);
-
-  // // console.log("data");
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
-    async function getData() {
-      const { data } = await displayProfile();
-      setData(data);
-      console.log("data");
-    }
-    getData();
-  }, []);
+    let isMounted = true;
+    const controller = new AbortController();
 
-  // if (error) {
-  //   return (
-  //     <div>
-  //       <Navigate to="/404" replace={true} />
-  //     </div>
-  //   );
-  // }
+    let token = localStorage.getItem("token");
+    token = JSON.parse(token);
+    console.log(token);
+
+    async function getUser() {
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/v1/user/profile",
+
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        console.log(response.data);
+        setUser(response.data);
+        isMounted && setUser(response.data);
+      } catch (error) {
+        // if (!error?.response) {
+        //   setErrorMessage("No server response");
+        // } else if (error.message?.status === 400) {
+        //   setErrorMessage("Missing email or password");
+        // } else {
+        //   setErrorMessage("Adresse email ou mot de passe incorrect");
+        // }
+      }
+    }
+    getUser();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
 
   return (
     <div>
-      <HeaderSignOut />
+      <HeaderSignOut firstName={user.firstName} />
 
       <main className="main bg-dark">
         <AccountHeader />

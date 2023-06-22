@@ -1,8 +1,10 @@
-// import axios from "axios";
+import axios from "axios";
 
-// export default axios.create({
-//   baseURL: "http://localhost:3001/api/v1"
-// })
+export default axios.create({
+  baseURL: "http://localhost:3001/api/v1",
+});
+
+export const LOGIN_URL = "/user/login";
 
 // function handleGetTokenClick() {
 //   axios.post("http://localhost:3001/api/v1/user/login").then((res) => {
@@ -33,43 +35,43 @@
 /////////////////////////////
 ///////////////////////////////
 
-async function userConnect(email, password) {
-  const response = await fetch("http://localhost:3001/api/v1/user/login", {
-    method: "POST",
-    body: JSON.stringify({ email, password }),
-    headers: { "Content-Type": "application/json" },
-  });
+// async function userConnect(email, password) {
+//   const response = await fetch("http://localhost:3001/api/v1/user/login", {
+//     method: "POST",
+//     body: JSON.stringify({ email, password }),
+//     headers: { "Content-Type": "application/json" },
+//   });
 
-  if (response.ok) {
-    const requestData = await response.json();
-    return requestData;
-  } else {
-    throw new Error("Failed to connect");
-  }
-}
+//   if (response.ok) {
+//     const requestData = await response.json();
+//     return requestData;
+//   } else {
+//     throw new Error("Failed to connect");
+//   }
+// }
 
-async function tokenRetrieve(email, password) {
-  const requestData = await userConnect(email, password);
-  console.log(requestData);
-  localStorage.setItem("token", JSON.stringify(requestData.body.token));
-  let token = localStorage.getItem("token");
-  if (!token) {
-    console.log("erreur");
-  }
-  token = JSON.parse(token);
-  return token;
-}
+// async function tokenRetrieve(email, password) {
+//   const requestData = await userConnect(email, password);
+//   console.log(requestData);
+//   localStorage.setItem("token", JSON.stringify(requestData.body.token));
+//   let token = localStorage.getItem("token");
+//   if (!token) {
+//     console.log("erreur");
+//   }
+//   token = JSON.parse(token);
+//   return token;
+// }
 
-export default async function displayProfile(email, password) {
-  const token = await tokenRetrieve(email, password);
-  console.log(token);
-  const response = await fetch(`http://localhost:3001/api/v1/user/profile`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
-  });
+// export default async function displayProfile(email, password) {
+//   const token = await tokenRetrieve(email, password);
+//   console.log(token);
+//   const response = await fetch(`http://localhost:3001/api/v1/user/profile`, {
+//     method: "POST",
+//     headers: { Authorization: `Bearer ${token}` },
+//   });
 
-  const profileData = await response.json();
-  console.log(profileData);
-}
+//   const profileData = await response.json();
+//   console.log(profileData);
+// }
 
-displayProfile("steve@rogers.com", "password456");
+// displayProfile("steve@rogers.com", "password456");

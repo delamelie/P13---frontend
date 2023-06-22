@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-export default function AccountHeader() {
+export default function AccountHeader({ firstName }) {
   return (
     <div>
       <AccountHeaderWrapper>
         <h1>
           Welcome back
           <br />
-          Tony Jarvis!
+          {firstName}
         </h1>
         <EditButton>Edit Name</EditButton>
       </AccountHeaderWrapper>

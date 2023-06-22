@@ -18,7 +18,7 @@ export default function Header() {
       <div>
         <Button to="/profile">
           <StyledFontAwesomeIcon icon={faCircleUser} />
-          Tony
+          {/* Tony{user.firstName} */}
         </Button>
         <SignOutButton to="/">
           <FontAwesomeIcon icon={faRightFromBracket} />

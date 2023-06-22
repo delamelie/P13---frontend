@@ -1,60 +1,67 @@
-import { useRef, useState, useEffect, useContext } from "react";
-// import { AuthContext } from "../context/AuthProvider";
+import axios from "../api.js";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-import axios from "../api.js";
+import { useNavigate } from "react-router-dom";
 
-export default function SignInModal() {
-  // const { setAuth } = useContext(AuthContext);
-  // const userRef = useRef();
-  // const errRef = useRef();
+import { LOGIN_URL } from "../api.js";
 
-  // const [user, setUser] = useState("");
-  // const [pwd, setPwd] = useState("");
-  // const [errorMessage, setErrorMessage] = useState("");
-  // const [success, setSuccess] = useState("");
+export default function SignInForm() {
+  const { setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:3001/api/v1/user/login",
-  //       JSON.stringify({ email: user, password: pwd }),
-  //       {
-  //         headers: { "Content-Type": "application/json" },
-  //         withCredentials: true,
-  //       }
-  //     );
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-  //     setUser("");
-  //     setPwd("");
-  //     setSuccess(true);
-  //   } catch (error) {}
-  // };
+    try {
+      const response = await axios.post(
+        LOGIN_URL,
+        JSON.stringify({ email, password }),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log(response.data);
+
+      let token = response.data.body.token;
+      localStorage.setItem("token", JSON.stringify(token));
+
+      setAuth({ email, password, token });
+      setEmail("");
+      setPassword("");
+      navigate("/profile");
+    } catch (error) {
+      if (!error?.response) {
+        setErrorMessage("No server response");
+      } else if (error.message?.status === 400) {
+        setErrorMessage("Missing email or password");
+      } else {
+        setErrorMessage("Adresse email ou mot de passe incorrect");
+      }
+    }
+  }
 
   return (
     <main className="main bg-dark">
       <SignInContent>
         <StyledFontAwesomeIcon icon={faCircleUser} />
         <h1>Sign In</h1>
-        {/* <form onSubmit={handleSubmit}> */}
-        <form>
-          {/* <p
-            ref={errRef}
-            className={errorMessage ? "errormessage" : "offscreen"}
-          >
+        <form onSubmit={handleSubmit}>
+          <ErrorMessage className={errorMessage ? "errormessage" : "offscreen"}>
             {errorMessage}
-          </p> */}
+          </ErrorMessage>
           <InputWrapper>
             <InputWrapperLabel htmlFor="username">Username</InputWrapperLabel>
             <InputWrapperInput
               type="text"
               id="username"
-              // ref={userRef}
-              // onChange={(e) => setUser(e.target.value)}
-              // value={user}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               required
             />
           </InputWrapper>
@@ -63,8 +70,8 @@ export default function SignInModal() {
             <InputWrapperInput
               type="password"
               id="password"
-              // onChange={(e) => setPwd(e.target.value)}
-              // value={pwd}
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
               required
             />
           </InputWrapper>
@@ -74,7 +81,8 @@ export default function SignInModal() {
               Remember me
             </InputRememberLabel>
           </InputRemember>
-          {/* <Link to="/profile">Sign In</Link> */}
+
+          {/* <SignInButton type="submit" value="Sign In" /> */}
           <SignInButton>Sign In</SignInButton>
         </form>
       </SignInContent>
@@ -93,6 +101,11 @@ const SignInContent = styled.section`
 
 const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
   font-size: 5rem;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-weight: bold;
 `;
 
 const InputWrapper = styled.div`

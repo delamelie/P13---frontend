@@ -5,6 +5,7 @@ export default axios.create({
 });
 
 export const LOGIN_URL = "/user/login";
+export const PROFILE_URL = "/user/profile";
 
 // function handleGetTokenClick() {
 //   axios.post("http://localhost:3001/api/v1/user/login").then((res) => {

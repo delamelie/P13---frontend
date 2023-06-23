@@ -1,15 +1,19 @@
-import axios from "../api.js";
-import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthProvider";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import axios from "../api.js";
+// import { AuthContext } from "../context/AuthProvider";
 
 import { LOGIN_URL } from "../api.js";
 
 export default function SignInForm() {
-  const { setAuth } = useContext(AuthContext);
+  useEffect(() => {
+    document.title = "ArgentBank - Login";
+  });
+
+  // const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,12 +30,11 @@ export default function SignInForm() {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(response.data);
 
       let token = response.data.body.token;
       localStorage.setItem("token", JSON.stringify(token));
 
-      setAuth({ email, password, token });
+      // setAuth({ email, password, token });
       setEmail("");
       setPassword("");
       navigate("/profile");

@@ -8,7 +8,7 @@ import {
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function Header() {
+export default function HeaderSignout({ firstName }) {
   return (
     <HeaderNav>
       <LogoNavLink to="/">
@@ -18,7 +18,7 @@ export default function Header() {
       <div>
         <Button to="/profile">
           <StyledFontAwesomeIcon icon={faCircleUser} />
-          {/* Tony{user.firstName} */}
+          {firstName}
         </Button>
         <SignOutButton to="/">
           <FontAwesomeIcon icon={faRightFromBracket} />

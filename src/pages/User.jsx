@@ -28,6 +28,8 @@ export default function User() {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+        // console.log(response.data);
+
         setUser(response.data.body);
       } catch (error) {}
     }

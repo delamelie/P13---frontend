@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import axios from "../api.js";
-// import { AuthContext } from "../context/AuthProvider";
+import { AuthContext } from "../context/AuthProvider";
 
 import { LOGIN_URL } from "../api.js";
 
@@ -13,7 +13,7 @@ export default function SignInForm() {
     document.title = "ArgentBank - Login";
   });
 
-  // const { setAuth } = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,21 +30,20 @@ export default function SignInForm() {
           headers: { "Content-Type": "application/json" },
         }
       );
+      // console.log(response.data);
 
       let token = response.data.body.token;
       localStorage.setItem("token", JSON.stringify(token));
 
-      // setAuth({ email, password, token });
+      setAuth({ email, password, token });
       setEmail("");
       setPassword("");
       navigate("/profile");
     } catch (error) {
       if (!error?.response) {
         setErrorMessage("No server response");
-      } else if (error.message?.status === 400) {
-        setErrorMessage("Missing email or password");
-      } else {
-        setErrorMessage("Adresse email ou mot de passe incorrect");
+      } else if (error.response.data.status === 400) {
+        setErrorMessage("Incorrect email or password");
       }
     }
   }
@@ -61,7 +60,8 @@ export default function SignInForm() {
           <InputWrapper>
             <InputWrapperLabel htmlFor="username">Username</InputWrapperLabel>
             <InputWrapperInput
-              type="text"
+              type="email"
+              name="username"
               id="username"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
@@ -72,6 +72,7 @@ export default function SignInForm() {
             <InputWrapperLabel htmlFor="password">Password</InputWrapperLabel>
             <InputWrapperInput
               type="password"
+              name="password"
               id="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
@@ -85,8 +86,7 @@ export default function SignInForm() {
             </InputRememberLabel>
           </InputRemember>
 
-          {/* <SignInButton type="submit" value="Sign In" /> */}
-          <SignInButton>Sign In</SignInButton>
+          <SignInButton type="submit" value="Sign In" />
         </form>
       </SignInContent>
     </main>
@@ -135,7 +135,7 @@ const InputRememberLabel = styled.label`
   margin-left: 0.25rem;
 `;
 
-const SignInButton = styled.button`
+const SignInButton = styled.input`
   display: block;
   width: 100%;
   padding: 8px;

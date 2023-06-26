@@ -3,9 +3,12 @@ import styled from "styled-components";
 import argentBankLogo from "../assets/argentBankLogo.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleUser,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
-export default function Header() {
+export default function Header({ firstName }) {
   return (
     <HeaderNav>
       <LogoNavLink to="/">
@@ -21,6 +24,37 @@ export default function Header() {
     </HeaderNav>
   );
 }
+
+// <div>
+//   <Button to="/profile">
+//     <StyledFontAwesomeIcon icon={faCircleUser} />
+//     {firstName}
+//   </Button>
+//   <SignOutButton to="/">
+//     <FontAwesomeIcon icon={faRightFromBracket} />
+//     Sign Out
+//   </SignOutButton>
+// </div>
+
+// const SignOutButton = styled(Link)`
+//   text-decoration: none;
+//   margin-right: 0.5rem;
+//   font-weight: bold;
+//   color: #2c3e50;
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// `;
+
+// const Button = styled(Link)`
+//   text-decoration: none;
+//   margin-right: 0.5rem;
+//   font-weight: bold;
+//   color: #2c3e50;
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// `;
 
 const HeaderNav = styled.nav`
   display: flex;

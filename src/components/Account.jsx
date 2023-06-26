@@ -61,7 +61,6 @@ const AccountAmountDescription = styled.p`
 `;
 
 const TransactionButton = styled.button`
-  display: block;
   width: 100%;
   padding: 8px;
   font-size: 1.1rem;

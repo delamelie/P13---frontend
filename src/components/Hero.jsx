@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <HeroWrapper>
       <HeroContent>
-        <h2 className="sr-only">Promoted Content</h2>
+        <h2 className="sr-only">Promoted content</h2>
         <HeroSubtitle>No fees.</HeroSubtitle>
         <HeroSubtitle>No minimum deposit.</HeroSubtitle>
         <HeroSubtitle>High interest rates.</HeroSubtitle>

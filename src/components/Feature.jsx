@@ -3,7 +3,7 @@ import styled from "styled-components";
 export default function Feature({ icon, title, text }) {
   return (
     <FeatureItem>
-      <FeatureIcon src={icon} alt="Chat Icon" />
+      <FeatureIcon src={icon} alt="Chat icon" />
       <FeatureTitle>{title}</FeatureTitle>
       <p>{text}</p>
     </FeatureItem>

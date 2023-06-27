@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
-import axios from "../api.js";
+import axios from "../api/api.js";
 
-import { PROFILE_URL } from "../api.js";
+import { PROFILE_URL } from "../api/api.js";
 
 //   return(
 //     <div>
@@ -31,19 +31,19 @@ export default function AccountHeader({ firstName, lastName }) {
     setFirstN("");
     setLastN("");
 
-    console.log({ firstName: firstN, lastName: lastN });
+    //   console.log({ firstName: firstN, lastName: lastN });
 
-    try {
-      const response = await axios.put(
-        PROFILE_URL,
-        JSON.stringify({ firstName: firstN, lastName: lastN }),
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+    //   try {
+    //     const response = await axios.put(
+    //       PROFILE_URL,
+    //       JSON.stringify({ firstName: firstN, lastName: lastN }),
+    //       {
+    //         headers: { Authorization: `Bearer ${token}` },
+    //       }
+    //     );
 
-      console.log(response.data);
-    } catch (error) {}
+    //     console.log(response.data);
+    //   } catch (error) {}
   }
 
   return (

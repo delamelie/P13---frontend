@@ -8,6 +8,10 @@ import {
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
+function handleSignOut() {
+  localStorage.removeItem("user");
+}
+
 export default function HeaderSignout({ firstName }) {
   return (
     <HeaderNav>
@@ -20,7 +24,7 @@ export default function HeaderSignout({ firstName }) {
           <StyledFontAwesomeIcon icon={faCircleUser} />
           {firstName}
         </Button>
-        <SignOutButton to="/">
+        <SignOutButton onClick={handleSignOut} to="/">
           <FontAwesomeIcon icon={faRightFromBracket} />
           Sign Out
         </SignOutButton>

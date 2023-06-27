@@ -3,13 +3,15 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router/routes.jsx";
 import { GlobalStyle } from "./style/GlobalStyle";
-import { AuthProvider } from "./context/AuthProvider";
+
+import { Provider } from "react-redux";
+import store from "./utils/store.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider>
+    <Provider store={store}>
       <RouterProvider router={router} />
-    </AuthProvider>
+    </Provider>
     <GlobalStyle />
   </React.StrictMode>
 );

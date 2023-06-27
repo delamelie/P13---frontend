@@ -1,51 +1,34 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import axios from "../api.js";
-import { AuthContext } from "../context/AuthProvider";
 
-import { LOGIN_URL } from "../api.js";
+import { loginUser } from "../utils/userSlice.js";
 
-export default function SignInForm() {
+export default function LoginForm() {
   useEffect(() => {
     document.title = "ArgentBank - Login";
   });
 
-  const { setAuth } = useContext(AuthContext);
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const { error, loading } = useSelector((state) => state.user);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({ email, password }),
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      // console.log(response.data);
-
-      let token = response.data.body.token;
-      localStorage.setItem("token", JSON.stringify(token));
-
-      setAuth({ email, password, token });
-      setEmail("");
-      setPassword("");
-      navigate("/profile");
-    } catch (error) {
-      if (!error?.response) {
-        setErrorMessage("No server response");
-      } else if (error.response.data.status === 400) {
-        setErrorMessage("Incorrect email or password");
+    let userCredentials = { email, password };
+    dispatch(loginUser(userCredentials)).then((result) => {
+      if (result.payload) {
+        setEmail("");
+        setPassword("");
+        navigate("/profile");
       }
-    }
+    });
   }
 
   return (
@@ -54,9 +37,9 @@ export default function SignInForm() {
         <StyledFontAwesomeIcon icon={faCircleUser} />
         <h1>Sign In</h1>
         <form onSubmit={handleSubmit}>
-          <ErrorMessage className={errorMessage ? "errormessage" : "offscreen"}>
-            {errorMessage}
-          </ErrorMessage>
+          {/* <ErrorMessage className={error ? "error" : "offscreen"}>
+            {error}
+          </ErrorMessage> */}
           <InputWrapper>
             <InputWrapperLabel htmlFor="username">Username</InputWrapperLabel>
             <InputWrapperInput
@@ -86,7 +69,12 @@ export default function SignInForm() {
             </InputRememberLabel>
           </InputRemember>
 
-          <SignInButton type="submit" value="Sign In" />
+          <SignInButton
+            type="submit"
+            value={loading ? "Loading..." : "Sign In"}
+          />
+
+          {error && <div className="alert">{error}</div>}
         </form>
       </SignInContent>
     </main>

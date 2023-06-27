@@ -1,12 +1,12 @@
 import Header from "../components/Header";
-import SignInForm from "../components/SignInForm";
+import LoginForm from "../components/LoginForm";
 import Footer from "../components/Footer";
 
 export default function SignIn() {
   return (
     <div>
       <Header />
-      <SignInForm />
+      <LoginForm />
       <Footer />
     </div>
   );

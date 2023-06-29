@@ -18,8 +18,12 @@ export default function User() {
   // const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(displayUser()).then((result) => setUser(result));
-  }, []);
+    dispatch(displayUser()).then((result) => {
+      if (result.payload) {
+        setUser(result.payload.body);
+      }
+    });
+  }, [dispatch]);
 
   return (
     <div>

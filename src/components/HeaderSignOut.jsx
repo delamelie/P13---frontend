@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function handleSignOut() {
-  localStorage.removeItem("user");
+  localStorage.removeItem("token");
 }
 
 export default function HeaderSignout({ firstName }) {

@@ -2,6 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../api/api.js";
 import { LOGIN_URL, PROFILE_URL } from "../api/api.js";
 
+const initialState = {
+  user: null,
+  loading: false,
+  token: null,
+  error: null,
+};
+
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async ({ email, password }) => {
@@ -12,13 +19,11 @@ export const loginUser = createAsyncThunk(
         headers: { "Content-Type": "application/json" },
       }
     );
+
     const response = await request.data;
     console.log(response);
-    console.log(response.body.token);
-
-    // let token = response.data.body.token;
-    // localStorage.setItem("token", JSON.stringify(token));
-    localStorage.setItem("user", JSON.stringify(response));
+    let token = response.body.token;
+    localStorage.setItem("token", JSON.stringify(token));
     return response;
   }
 );
@@ -37,23 +42,17 @@ export const displayUser = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+
     const response = await request.data;
     console.log(response);
     return response;
   }
 );
 
-const initialState = {
-  user: null,
-  loading: false,
-  token: null,
-  error: null,
-};
-
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  extrareducers: (builder) => {
+  extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true;

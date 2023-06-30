@@ -5,12 +5,12 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
-import { loginUser } from "../utils/userSlice.js";
+import { loginUser } from "../features/authSlice.js";
 
 export default function LoginForm() {
   useEffect(() => {
     document.title = "ArgentBank - Login";
-  });
+  }, []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +24,7 @@ export default function LoginForm() {
     let userCredentials = { email, password };
     dispatch(loginUser(userCredentials)).then((result) => {
       if (result.payload) {
+        //console.log(result.payload);
         setEmail("");
         setPassword("");
         navigate("/profile");
@@ -37,27 +38,24 @@ export default function LoginForm() {
         <StyledFontAwesomeIcon icon={faCircleUser} />
         <h1>Sign In</h1>
         <form onSubmit={handleSubmit}>
-          {/* <ErrorMessage className={error ? "error" : "offscreen"}>
-            {error}
-          </ErrorMessage> */}
           <InputWrapper>
-            <InputWrapperLabel htmlFor="username">Username</InputWrapperLabel>
-            <InputWrapperInput
+            <InputLabel htmlFor="username">Username</InputLabel>
+            <Input
               type="email"
               name="username"
               id="username"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value.trim())}
               value={email}
               required
             />
           </InputWrapper>
           <InputWrapper>
-            <InputWrapperLabel htmlFor="password">Password</InputWrapperLabel>
-            <InputWrapperInput
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <Input
               type="password"
               name="password"
               id="password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value.trim())}
               value={password}
               required
             />
@@ -74,7 +72,7 @@ export default function LoginForm() {
             value={loading ? "Loading..." : "Sign In"}
           />
 
-          {error && <div className="alert">{error}</div>}
+          {error && <ErrorMessage>{error}</ErrorMessage>}
         </form>
       </SignInContent>
     </main>
@@ -106,11 +104,11 @@ const InputWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
-const InputWrapperLabel = styled.label`
+const InputLabel = styled.label`
   font-weight: bold;
 `;
 
-const InputWrapperInput = styled.input`
+const Input = styled.input`
   padding: 5px;
   font-size: 1.2rem;
 `;

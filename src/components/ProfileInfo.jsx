@@ -1,50 +1,35 @@
 import { useState } from "react";
 import styled from "styled-components";
-import axios from "../api/api.js";
+import { useDispatch, useSelector } from "react-redux";
 
-import { PROFILE_URL } from "../api/api.js";
-
-//   return(
-//     <div>
-//       <div>Fill the password input and click elsewhere to blur the field</div>
-//       <input
-//         className={`${valid ? 'success' : 'error'}`}
-//         onChange={onChange}
-//         onBlur={onBlur}
-//         value={inputValue}
-//       />
-//       <div>{valid.toString()}</div>
-//     </div>
-//   );
-// }
+import { updateUser } from "../features/updateSlice.js";
 
 export default function AccountHeader({ firstName, lastName }) {
   const [showFieldInput, setShowFieldInput] = useState(false);
   const [firstN, setFirstN] = useState("");
   const [lastN, setLastN] = useState("");
 
-  let token = localStorage.getItem("token");
-  token = JSON.parse(token);
+  const dispatch = useDispatch();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setFirstN("");
-    setLastN("");
 
-    //   console.log({ firstName: firstN, lastName: lastN });
-
-    //   try {
-    //     const response = await axios.put(
-    //       PROFILE_URL,
-    //       JSON.stringify({ firstName: firstN, lastName: lastN }),
-    //       {
-    //         headers: { Authorization: `Bearer ${token}` },
-    //       }
-    //     );
-
-    //     console.log(response.data);
-    //   } catch (error) {}
+    dispatch(updateUser({ firstN, lastN })).then((result) => {
+      if (result.payload) {
+        setFirstN(firstN);
+        setLastN(lastN);
+        setShowFieldInput(false);
+      }
+    });
   }
+
+  //  useEffect(() => {
+  //   dispatch(displayUser()).then((result) => {
+  //     if (result.payload) {
+  //       setUser(result.payload.body);
+  //     }
+  //   });
+  // }, [dispatch]);
 
   return (
     <div>
@@ -60,16 +45,18 @@ export default function AccountHeader({ firstName, lastName }) {
                   type="text"
                   placeholder={firstName}
                   value={firstN}
-                  onChange={(e) => setFirstN(e.target.value)}
+                  required
+                  onChange={(e) => setFirstN(e.target.value.trim())}
                 />
-
                 <label htmlFor="firstName" />
+
                 <Input
                   id="lastName"
                   type="text"
                   placeholder={lastName}
                   value={lastN}
-                  onChange={(e) => setLastN(e.target.value)}
+                  required
+                  onChange={(e) => setLastN(e.target.value.trim())}
                 />
                 <label htmlFor="lastName" />
               </div>

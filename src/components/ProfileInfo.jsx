@@ -23,10 +23,13 @@ export default function AccountHeader({ firstName, lastName }) {
     });
   }
 
-  //  useEffect(() => {
-  //   dispatch(displayUser()).then((result) => {
+  // useEffect(() => {
+  //   dispatch(updateUser({ firstN, lastN })).then((result) => {
   //     if (result.payload) {
-  //       setUser(result.payload.body);
+  //       setFirstN(firstN);
+  //       setLastN(lastN);
+  //       setShowFieldInput(false);
+  //       console.log("coucou");
   //     }
   //   });
   // }, [dispatch]);

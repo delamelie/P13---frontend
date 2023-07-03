@@ -1,60 +1,25 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 import argentBankLogo from "../assets/argentBankLogo.png";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleUser,
-  faRightFromBracket,
-} from "@fortawesome/free-solid-svg-icons";
+import SignIn from "../components/SignIn";
+import SignOut from "../components/SignOut";
 
 export default function Header({ firstName }) {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
   return (
     <HeaderNav>
       <LogoNavLink to="/">
         <Logo src={argentBankLogo} alt="Argent Bank Logo" />
+        <div>{firstName}</div>
         <h1 className="sr-only">Argent Bank</h1>
       </LogoNavLink>
-      <div>
-        <SignInButton to="/login">
-          <StyledFontAwesomeIcon icon={faCircleUser} />
-          Sign In
-        </SignInButton>
-      </div>
+
+      {isLoggedIn ? <SignOut firstName={firstName} /> : <SignIn />}
     </HeaderNav>
   );
 }
-
-// <div>
-//   <Button to="/profile">
-//     <StyledFontAwesomeIcon icon={faCircleUser} />
-//     {firstName}
-//   </Button>
-//   <SignOutButton to="/">
-//     <FontAwesomeIcon icon={faRightFromBracket} />
-//     Sign Out
-//   </SignOutButton>
-// </div>
-
-// const SignOutButton = styled(Link)`
-//   text-decoration: none;
-//   margin-right: 0.5rem;
-//   font-weight: bold;
-//   color: #2c3e50;
-//   &:hover {
-//     text-decoration: underline;
-//   }
-// `;
-
-// const Button = styled(Link)`
-//   text-decoration: none;
-//   margin-right: 0.5rem;
-//   font-weight: bold;
-//   color: #2c3e50;
-//   &:hover {
-//     text-decoration: underline;
-//   }
-// `;
 
 const HeaderNav = styled.nav`
   display: flex;
@@ -75,23 +40,6 @@ const Logo = styled.img`
   width: 200px;
 `;
 
-const SignInButton = styled(Link)`
-  text-decoration: none;
-  margin-right: 0.5rem;
-  font-weight: bold;
-  color: #2c3e50;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
-  font-weight: bold;
-  color: #2c3e50;
-  text-decoration: none;
-  margin-right: 0.5rem;
-`;
-
-//   .main-nav a.router-link-exact-active {
-//     color: #42b983;
-//   }
+// //   .main-nav a.router-link-exact-active {
+// //     color: #42b983;
+// //   }

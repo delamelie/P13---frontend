@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
-import { loginUser } from "../features/authSlice.js";
+import { loginUser } from "../api/loginUser";
 
 export default function LoginForm() {
   useEffect(() => {
@@ -24,7 +24,6 @@ export default function LoginForm() {
     let userCredentials = { email, password };
     dispatch(loginUser(userCredentials)).then((result) => {
       if (result.payload) {
-        //console.log(result.payload);
         setEmail("");
         setPassword("");
         navigate("/profile");

@@ -1,37 +1,19 @@
-import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
-import axios from "../api/api.js";
-import { LOGIN_URL } from "../api/api.js";
+import { createSlice, createAction } from "@reduxjs/toolkit";
+import { loginUser } from "../api/loginUser";
 
 const initialState = {
   user: null,
   loading: false,
-  token: null,
+  token: localStorage.getItem("token"),
   error: null,
   isLoggedIn: false,
 };
 
 /// Actions
 
-export const loginUser = createAsyncThunk(
-  "user/loginUser",
-  async ({ email, password }) => {
-    const headers = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const request = await axios.post(LOGIN_URL, { email, password }, headers);
-    const response = await request.data;
-    console.log(response);
-
-    return response;
-  }
-);
+export const logOut = createAction("LOG_OUT");
 
 /// Reducer
-
-export const logOut = createAction("LOG_OUT");
 
 export const authSlice = createSlice({
   name: "auth",
@@ -71,7 +53,12 @@ export const authSlice = createSlice({
           state.error = action.error.message;
         }
       })
-      .addCase(logOut, (state) => (state = initialState));
+      .addCase(logOut, (state) => {
+        state = initialState;
+
+        state.token = null;
+        localStorage.removeItem("token");
+      });
   },
 });
 

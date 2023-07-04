@@ -1,33 +1,21 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { useState, useEffect, Navigate } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import Header from "../components/Header";
-
 import ProfileInfo from "../components/ProfileInfo";
 import Account from "../components/Account";
 import Footer from "../components/Footer";
-import { displayUser } from "../features/userSlice.js";
+import { displayUser } from "../api/displayUser";
 
 export default function User() {
   useEffect(() => {
     document.title = "ArgentBank - Profile";
   }, []);
 
-  // const store = useStore();
-  // useEffect(() => {
-  //   displayUser(store);
-  // }, [store]);
-
-  // const selectUser = (state) => state.auth;
-  // const user = useSelector(selectUser);
-  // console.log(user);
-
   const [user, setUser] = useState({});
   const dispatch = useDispatch();
 
-  // const { user } = useSelector((state) => state.user);
-  // console.log(user);
-  //const currentUser = useSelector((state) => state.auth.user);
+  const { loading, isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(displayUser()).then((result) => {
@@ -37,7 +25,9 @@ export default function User() {
     });
   }, [dispatch]);
 
-  return (
+  if (loading) return null;
+
+  return isLoggedIn ? (
     <div>
       <Header firstName={user.firstName} />
 
@@ -49,5 +39,7 @@ export default function User() {
       </main>
       <Footer />
     </div>
+  ) : (
+    <Navigate to="/login" replace />
   );
 }

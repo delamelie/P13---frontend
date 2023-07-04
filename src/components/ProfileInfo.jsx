@@ -2,37 +2,28 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updateUser } from "../features/updateSlice.js";
+import { updateUser } from "../api/updateUser";
 
-export default function AccountHeader({ firstName, lastName }) {
+export default function ProfileInfo({ firstName, lastName }) {
   const [showFieldInput, setShowFieldInput] = useState(false);
-  const [firstN, setFirstN] = useState("");
-  const [lastN, setLastN] = useState("");
+  const [newFirstName, setNewFirstName] = useState("");
+  const [newLastName, setNewLastName] = useState("");
 
   const dispatch = useDispatch();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    dispatch(updateUser({ firstN, lastN })).then((result) => {
+    dispatch(updateUser({ newFirstName, newLastName })).then((result) => {
       if (result.payload) {
-        setFirstN(firstN);
-        setLastN(lastN);
+        setNewFirstName(newFirstName);
+        setNewLastName(newLastName);
         setShowFieldInput(false);
+        console.log(newFirstName);
+        console.log(newLastName);
       }
     });
   }
-
-  // useEffect(() => {
-  //   dispatch(updateUser({ firstN, lastN })).then((result) => {
-  //     if (result.payload) {
-  //       setFirstN(firstN);
-  //       setLastN(lastN);
-  //       setShowFieldInput(false);
-  //       console.log("coucou");
-  //     }
-  //   });
-  // }, [dispatch]);
 
   return (
     <div>
@@ -47,9 +38,9 @@ export default function AccountHeader({ firstName, lastName }) {
                   id="firstName"
                   type="text"
                   placeholder={firstName}
-                  value={firstN}
+                  value={newFirstName}
                   required
-                  onChange={(e) => setFirstN(e.target.value.trim())}
+                  onChange={(e) => setNewFirstName(e.target.value.trim())}
                 />
                 <label htmlFor="firstName" />
 
@@ -57,9 +48,9 @@ export default function AccountHeader({ firstName, lastName }) {
                   id="lastName"
                   type="text"
                   placeholder={lastName}
-                  value={lastN}
+                  value={newLastName}
                   required
-                  onChange={(e) => setLastN(e.target.value.trim())}
+                  onChange={(e) => setNewLastName(e.target.value.trim())}
                 />
                 <label htmlFor="lastName" />
               </div>

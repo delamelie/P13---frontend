@@ -1,25 +1,31 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { PROFILE_URL } from "./api";
+import { displayUser } from "../api/displayUser";
 
 /// Action
 
 export const updateUser = createAsyncThunk(
-  "user/displayUser",
+  "newUserName/updateUser",
 
-  async ({ newFirstName, newLastName }) => {
-    let token = localStorage.getItem("token");
-    token = JSON.parse(token);
+  async ({ newFirstName, newLastName }, { getState, dispatch }) => {
+    const state = getState();
+    const token = state.auth.token;
 
-    const request = await axios.put(
-      PROFILE_URL,
-      { firstName: newFirstName, lastName: newLastName },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    try {
+      const request = await axios.put(
+        PROFILE_URL,
+        { firstName: newFirstName, lastName: newLastName },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-    const response = await request.data;
-    console.log(response);
-    return response;
+      const response = request.data;
+      console.log(response);
+      dispatch(displayUser());
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 );

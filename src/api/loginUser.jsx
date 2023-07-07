@@ -4,16 +4,15 @@ import axios, { LOGIN_URL } from "./api";
 /// Action
 
 export const loginUser = createAsyncThunk(
-  "user/loginUser",
+  "auth/loginUser",
   async ({ email, password }) => {
     const headers = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-
     const request = await axios.post(LOGIN_URL, { email, password }, headers);
-    const response = await request.data;
+    const response = request.data;
     console.log(response);
     return response;
   }

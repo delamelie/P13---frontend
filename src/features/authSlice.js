@@ -2,7 +2,6 @@ import { createSlice, createAction } from "@reduxjs/toolkit";
 import { loginUser } from "../api/loginUser";
 
 const initialState = {
-  user: null,
   loading: false,
   token: localStorage.getItem("token"),
   error: null,
@@ -11,7 +10,7 @@ const initialState = {
 
 /// Actions
 
-export const logOut = createAction("LOG_OUT");
+export const logOut = createAction("logOut");
 
 /// Reducer
 
@@ -22,27 +21,20 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
-        state.user = null;
         state.error = null;
         state.token = null;
         state.isLoggedIn = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
         state.error = null;
         state.token = action.payload.body.token;
-        console.log(state.token);
-        localStorage.setItem("token", JSON.stringify(state.token));
         state.isLoggedIn = true;
-        console.log(state.isLoggedIn);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.user = null;
         state.token = null;
         console.log(action.error.message);
         state.isLoggedIn = false;
@@ -55,9 +47,6 @@ export const authSlice = createSlice({
       })
       .addCase(logOut, (state) => {
         state = initialState;
-
-        state.token = null;
-        localStorage.removeItem("token");
       });
   },
 });

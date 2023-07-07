@@ -6,13 +6,12 @@ import {
   faCircleUser,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import logOut from "../features/authSlice.js";
+import logOut from "../features/authSlice";
 
 export default function Signout({ firstName }) {
   const dispatch = useDispatch();
 
   function handleSignOut() {
-    localStorage.removeItem("token");
     dispatch(logOut());
   }
 

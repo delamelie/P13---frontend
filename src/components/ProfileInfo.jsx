@@ -13,16 +13,10 @@ export default function ProfileInfo({ firstName, lastName }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    dispatch(updateUser({ newFirstName, newLastName })).then((result) => {
-      if (result.payload) {
-        setNewFirstName(newFirstName);
-        setNewLastName(newLastName);
-        setShowFieldInput(false);
-        console.log(newFirstName);
-        console.log(newLastName);
-      }
-    });
+    setNewFirstName(newFirstName);
+    setNewLastName(newLastName);
+    dispatch(updateUser({ newFirstName, newLastName }));
+    setShowFieldInput(false);
   }
 
   return (

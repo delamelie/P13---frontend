@@ -1,25 +1,37 @@
-import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
-import axios from "../api/api.js";
-import { PROFILE_URL } from "../api/api.js";
+import { createSlice } from "@reduxjs/toolkit";
+import { displayUser } from "../api/displayUser";
 
-// let initialState = {
-//   isLoggedIn: false,
-//   user: null,
-// };
+const initialState = {
+  user: null,
+  loading: false,
+  error: null,
+};
 
-// const userSlice = createSlice({
-//   name: "test",
-//   initialState,
-//   reducers: {
-//     login: (state, action) => {
-//       state.isLoggedIn = true;
-//       state.user = action.payload;
-//       console.log("coucou");
-//       console.log(state.isLoggedIn);
-//     },
-//     logout: () => initialState,
-//   },
-// });
+/// Reducer
 
-// export const { login, logout } = userSlice.actions;
-// export default userSlice.reducer;
+export const userSlice = createSlice({
+  name: "user",
+  initialState,
+
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(displayUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.user = null;
+      })
+      .addCase(displayUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.user = action.payload.body;
+      })
+      .addCase(displayUser.rejected, (action, state) => {
+        state.loading = false;
+        console.log(action.error.message);
+        state.user = null;
+      });
+  },
+});
+
+export default userSlice.reducer;

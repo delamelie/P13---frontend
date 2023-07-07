@@ -7,17 +7,21 @@ import { PROFILE_URL } from "./api";
 export const displayUser = createAsyncThunk(
   "user/displayUser",
 
-  async () => {
-    let token = localStorage.getItem("token");
-    token = JSON.parse(token);
+  async (arg, { getState }) => {
+    const state = getState();
+    const token = state.auth.token;
+
     const headers = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    const request = await axios.post(PROFILE_URL, {}, headers);
-
-    const response = await request.data;
-    //console.log(response);
-    return response;
+    try {
+      const request = await axios.post(PROFILE_URL, {}, headers);
+      const response = request.data;
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 );

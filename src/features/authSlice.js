@@ -3,12 +3,12 @@ import { loginUser } from "../api/loginUser";
 
 const initialState = {
   loading: false,
-  token: localStorage.getItem("token"),
   error: null,
+  token: null,
   isLoggedIn: false,
 };
 
-/// Actions
+/// Action
 
 export const logOut = createAction("logOut");
 
@@ -36,12 +36,13 @@ export const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.token = null;
-        console.log(action.error.message);
         state.isLoggedIn = false;
 
         if (action.error.message == "Request failed with status code 400") {
+          console.log(action.error.message);
           state.error = "Invalid email or password";
         } else {
+          console.log(action.error.message);
           state.error = action.error.message;
         }
       })

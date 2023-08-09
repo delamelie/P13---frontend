@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../api/api.js";
-import { PROFILE_URL } from "./api";
+import axios, { PROFILE_URL } from "./api";
 
 /// Action
 
@@ -22,6 +21,7 @@ export const displayUser = createAsyncThunk(
       return response;
     } catch (error) {
       console.log(error.message);
+      throw error;
     }
   }
 );

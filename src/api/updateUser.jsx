@@ -25,7 +25,7 @@ export const updateUser = createAsyncThunk(
       dispatch(displayUser());
       return response;
     } catch (error) {
-      console.log(error.message);
+      throw error;
     }
   }
 );

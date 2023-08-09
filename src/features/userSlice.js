@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAction } from "@reduxjs/toolkit";
 import { displayUser } from "../api/displayUser";
 
 const initialState = {
@@ -6,6 +6,10 @@ const initialState = {
   loading: false,
   error: null,
 };
+
+/// Action
+
+// export const logOut = createAction("logOut");
 
 /// Reducer
 
@@ -30,7 +34,18 @@ export const userSlice = createSlice({
         state.loading = false;
         console.log(action.error.message);
         state.user = null;
+
+        if (action.error.message) {
+          console.log(action.error.message);
+          state.error = "Invalid email or password";
+        } else {
+          console.log("else");
+          //state.error = action.error.message;
+        }
       });
+    // .addCase(logOut, (state) => {
+    //   state = initialState;
+    // });
   },
 });
 

@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Feature from "../components/Feature";
 import Footer from "../components/Footer";
-
 import iconChat from "../assets/icon-chat.png";
 import iconMoney from "../assets/icon-money.png";
 import iconSecurity from "../assets/icon-security.png";

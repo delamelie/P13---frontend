@@ -1,12 +1,42 @@
-// import { Link } from "react-router-dom";
-// import styled from "styled-components";
-// import { useDispatch } from "react-redux";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import {
-//   faCircleUser,
-//   faRightFromBracket,
-// } from "@fortawesome/free-solid-svg-icons";
-// import logOut from "../features/userSlice";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleUser,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
+import { displayUser } from "../actions/displayUser";
+import logOut from "../features/userSlice";
+import { isEmpty } from "./utils/isEmpty.js";
+
+export default function Signout() {
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  // function handleSignOut() {
+  //   dispatch(logOut());
+  // }
+
+  // useEffect(() => {
+  //   dispatch(displayUser());
+  // }, [dispatch]);
+
+  return (
+    <ButtonsWrapper>
+      <Button to="/profile">
+        <StyledFontAwesomeIcon icon={faCircleUser} />
+        {!isEmpty(user) && user.firstName}
+      </Button>
+      {/* <SignOutButton onClick={handleSignOut} to="/"> */}
+      <SignOutButton onClick={() => dispatch(logOut())} to="/">
+        <FontAwesomeIcon icon={faRightFromBracket} />
+        Sign Out
+      </SignOutButton>
+    </ButtonsWrapper>
+  );
+}
 
 // export default function Signout({ firstName }) {
 //   const dispatch = useDispatch();
@@ -30,86 +60,18 @@
 //   );
 // }
 
-// const SignOutButton = styled(Link)`
-//   text-decoration: none;
-//   margin-right: 0.5rem;
-//   font-weight: bold;
-//   color: #2c3e50;
-//   border: 8px solid, green;
-//   &:hover {
-//     text-decoration: underline;
-//   }
-// `;
-
-// const Button = styled(Link)`
-//   text-decoration: none;
-//   margin-right: 0.5rem;
-//   font-weight: bold;
-//   color: #2c3e50;
-//   border: 2px solid, pink;
-//   &:hover {
-//     text-decoration: underline;
-//   }
-// `;
-
-// const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
-//   font-weight: bold;
-//   color: #2c3e50;
-//   text-decoration: none;
-//   margin-right: 0.5rem;
-// `;
-
-// //   .main-nav a.router-link-exact-active {
-// //     color: #42b983;
-// //   }
-
-//Sans props
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleUser,
-  faRightFromBracket,
-} from "@fortawesome/free-solid-svg-icons";
-import logOut from "../features/userSlice";
-
-import { useEffect } from "react";
-import { displayUser } from "../api/displayUser";
-
-export default function Signout() {
-  const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-
-  // function handleSignOut() {
-  //   dispatch(logOut());
-  // }
-
-  useEffect(() => {
-    dispatch(displayUser());
-  }, [dispatch]);
-
-  return (
-    <div>
-      <Button to="/profile">
-        <StyledFontAwesomeIcon icon={faCircleUser} />
-        {user && user.firstName}
-      </Button>
-      {/* <SignOutButton onClick={handleSignOut} to="/"> */}
-      <SignOutButton onClick={() => dispatch(logOut())} to="/">
-        <FontAwesomeIcon icon={faRightFromBracket} />
-        Sign Out
-      </SignOutButton>
-    </div>
-  );
-}
+const ButtonsWrapper = styled.div`
+  @media (max-width: 450px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
 
 const SignOutButton = styled(Link)`
   text-decoration: none;
   margin-right: 0.5rem;
   font-weight: bold;
   color: #2c3e50;
-  border: 8px solid, green;
   &:hover {
     text-decoration: underline;
   }
@@ -120,7 +82,6 @@ const Button = styled(Link)`
   margin-right: 0.5rem;
   font-weight: bold;
   color: #2c3e50;
-  border: 2px solid, pink;
   &:hover {
     text-decoration: underline;
   }

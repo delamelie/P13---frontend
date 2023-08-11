@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-
-import { loginUser } from "../api/loginUser";
+import { loginUser } from "../actions/loginUser";
 
 export default function LoginForm() {
   useEffect(() => {
@@ -80,7 +79,7 @@ export default function LoginForm() {
 
 const SignInContent = styled.section`
   box-sizing: border-box;
-  background-color: white;
+  background-color: #ffffff;
   width: 300px;
   margin: 0 auto;
   margin-top: 3rem;
@@ -92,7 +91,7 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
 `;
 
 const ErrorMessage = styled.p`
-  color: red;
+  color: #ff0000;
   font-weight: bold;
 `;
 

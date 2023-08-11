@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { updateUser } from "../api/updateUser";
+import { updateUser } from "../actions/updateUser";
 
 const initialState = {
   error: null,

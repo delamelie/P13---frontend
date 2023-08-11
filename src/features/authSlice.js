@@ -1,5 +1,6 @@
-import { createSlice, createAction } from "@reduxjs/toolkit";
-import { loginUser } from "../api/loginUser";
+import { createSlice } from "@reduxjs/toolkit";
+import { loginUser } from "../actions/loginUser";
+import { logOut } from "../actions/logOut";
 
 const initialState = {
   loading: false,
@@ -7,12 +8,6 @@ const initialState = {
   token: null,
   isLoggedIn: false,
 };
-
-/// Action
-
-export const logOut = createAction("logOut");
-
-/// Reducer
 
 export const authSlice = createSlice({
   name: "auth",
@@ -23,15 +18,15 @@ export const authSlice = createSlice({
     builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
-        state.error = null;
         state.token = null;
         state.isLoggedIn = false;
+        state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.error = null;
         state.token = action.payload.body.token;
         state.isLoggedIn = true;
+        state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -47,7 +42,10 @@ export const authSlice = createSlice({
         }
       })
       .addCase(logOut, (state) => {
-        state = initialState;
+        state.loading = false;
+        state.token = null;
+        state.isLoggedIn = false;
+        state.error = null;
       });
   },
 });

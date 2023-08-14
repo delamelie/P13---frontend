@@ -7,21 +7,17 @@ import {
   faCircleUser,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { displayUser } from "../actions/displayUser";
-import logOut from "../features/userSlice";
+import { displayUser } from "../features/displayUser/displayUser";
+import logoutUser from "../features/displayUser/userSlice";
 import { isEmpty } from "./utils/isEmpty.js";
 
 export default function Signout() {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  // function handleSignOut() {
-  //   dispatch(logOut());
-  // }
-
-  // useEffect(() => {
-  //   dispatch(displayUser());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(displayUser());
+  }, [dispatch]);
 
   return (
     <ButtonsWrapper>
@@ -29,8 +25,7 @@ export default function Signout() {
         <StyledFontAwesomeIcon icon={faCircleUser} />
         {!isEmpty(user) && user.firstName}
       </Button>
-      {/* <SignOutButton onClick={handleSignOut} to="/"> */}
-      <SignOutButton onClick={() => dispatch(logOut())} to="/">
+      <SignOutButton onClick={() => dispatch(logoutUser())} to="/">
         <FontAwesomeIcon icon={faRightFromBracket} />
         Sign Out
       </SignOutButton>

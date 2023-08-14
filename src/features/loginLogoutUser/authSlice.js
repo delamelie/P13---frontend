@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser } from "../actions/loginUser";
-import { logOut } from "../actions/logOut";
+import { loginUser } from "./loginUser";
+import { logoutUser } from "./logoutUser";
 
 const initialState = {
   loading: false,
@@ -12,8 +12,6 @@ const initialState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -32,20 +30,22 @@ export const authSlice = createSlice({
         state.loading = false;
         state.token = null;
         state.isLoggedIn = false;
+        state.error = action.payload;
 
-        if (action.error.message == "Request failed with status code 400") {
-          console.log(action.error.message);
-          state.error = "Invalid email or password";
-        } else {
-          console.log(action.error.message);
-          state.error = action.error.message;
-        }
+        // if (action.error.message == "Request failed with status code 400") {
+        //   console.log(action.error.message);
+        //   state.error = "Invalid email or password";
+        // } else {
+        //   console.log(action.error.message);
+        //   state.error = action.error.message;
+        // }
       })
-      .addCase(logOut, (state) => {
+      .addCase(logoutUser, (state) => {
         state.loading = false;
         state.token = null;
         state.isLoggedIn = false;
         state.error = null;
+        //return initialState;
       });
   },
 });

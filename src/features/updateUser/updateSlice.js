@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { updateUser } from "../actions/updateUser";
+import { updateUser } from "./updateUser";
 
 const initialState = {
   error: null,
@@ -9,7 +9,6 @@ const initialState = {
 const updateSlice = createSlice({
   name: "update",
   initialState,
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(updateUser.pending, (state) => {
@@ -22,8 +21,8 @@ const updateSlice = createSlice({
       });
     builder.addCase(updateUser.rejected, (state, action) => {
       state.loading = false;
-      console.log(action.error.message);
-      state.error = "A server error occurred. Please try again later.";
+      state.error = action.error.message;
+      //state.error = "A server error occurred. Please try again later.";
     });
   },
 });

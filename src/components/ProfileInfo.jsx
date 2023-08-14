@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { displayUser } from "../actions/displayUser";
-import { updateUser } from "../actions/updateUser";
+import { displayUser } from "../features/displayUser/displayUser";
+import { updateUser } from "../features/updateUser/updateUser";
 import { isEmpty } from "./utils/isEmpty.js";
 
 export default function ProfileInfo() {
@@ -12,8 +12,8 @@ export default function ProfileInfo() {
 
   const dispatch = useDispatch();
 
-  // const firstNameInput = useRef("");
-  // console.log(firstNameInput.value);
+  // const test = useRef();
+  // console.log(test.current.value);
 
   const { error, loading } = useSelector((state) => state.update);
   const { user } = useSelector((state) => state.user);
@@ -42,7 +42,6 @@ export default function ProfileInfo() {
               <Input
                 id="firstName"
                 type="text"
-                // ref={firstNameInput}
                 placeholder={!isEmpty(user) && user.firstName}
                 value={newFirstName}
                 required
@@ -61,11 +60,10 @@ export default function ProfileInfo() {
               <label htmlFor="lastName" />
             </div>
             <div>
-              <SaveCancelButton type="submit">Save</SaveCancelButton>
-              {/* <SaveCancelButton
-                type="submit"
-                value={loading ? "Loading..." : "Save"}
-              /> */}
+              <SaveCancelButton type="submit">
+                {loading ? "Loading..." : "Save"}
+              </SaveCancelButton>
+              {/* <SaveCancelButton type="submit">Save</SaveCancelButton> */}
               <SaveCancelButton
                 type="button"
                 onClick={() => setShowFieldInput(!showFieldInput)}

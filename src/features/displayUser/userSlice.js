@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { displayUser } from "../actions/displayUser";
+import { displayUser } from "./displayUser";
+import { logoutUser } from "../loginLogoutUser/logoutUser";
 
 const initialState = {
   user: null,
@@ -10,8 +11,6 @@ const initialState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(displayUser.pending, (state) => {
@@ -27,12 +26,14 @@ export const userSlice = createSlice({
       .addCase(displayUser.rejected, (action, state) => {
         state.loading = false;
         state.user = null;
-        //console.log(action.error.message);
-        state.error = "A server error occurred. Please try again later.";
-      })
-      .addDefaultCase((state) => state);
-    // .addCase(logOut, (state) => {
-    //   state = initialState;
+        //state.error = "A server error occurred. Please try again later.";
+        state.error = action.error.message;
+      });
+    // .addCase(logoutUser, (state) => {
+    //   state.loading = false;
+    //   state.user = null;
+    //   state.error = null;
+    //   //return initialState;
     // });
   },
 });

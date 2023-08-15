@@ -3,11 +3,10 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-
+import { PrivateRoute } from "./PrivateRoute";
 import Home from "../pages/Home";
 import SignIn from "../pages/SignIn";
 import User from "../pages/User";
-import { PrivateRoute } from "./PrivateRoute";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(

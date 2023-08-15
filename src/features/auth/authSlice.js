@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUser } from "./authActions";
 
-import { userSlice } from "../user/userSlice";
-
 const initialState = {
   loading: false,
   error: null,
@@ -14,13 +12,8 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logoutUser: (state) => {
-      state.loading = false;
-      state.token = null;
-      state.isLoggedIn = false;
-      state.error = null;
-      console.log("te");
-      //userSlice.caseReducers.clearUser();
+    logoutUser: () => {
+      return initialState;
     },
   },
   extraReducers: (builder) => {
@@ -43,16 +36,9 @@ export const authSlice = createSlice({
         state.isLoggedIn = false;
         state.error = action.payload;
       });
-    // .addCase(logoutUser, (state) => {
-    //   // state.loading = false;
-    //   // state.token = null;
-    //   // state.isLoggedIn = false;
-    //   // state.error = null;
-    //   console.log("coucou");
-    //   //userSlice.caseReducers.clearUser();
-    //   return initialState;
-    // });
   },
 });
 
 export default authSlice.reducer;
+
+export const { logoutUser } = authSlice.actions;

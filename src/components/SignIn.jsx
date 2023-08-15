@@ -30,7 +30,3 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
   text-decoration: none;
   margin-right: 0.5rem;
 `;
-
-//   .main-nav a.router-link-exact-active {
-//     color: #42b983;
-//   }

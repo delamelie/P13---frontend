@@ -8,7 +8,7 @@ import {
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { displayUser } from "../features/user/userActions";
-import { logoutUser } from "../features/auth/authActions";
+import { logoutUser } from "../features/auth/authSlice";
 import { isEmpty } from "./utils/isEmpty.js";
 
 export default function Signout() {
@@ -16,8 +16,10 @@ export default function Signout() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(displayUser());
-  }, [dispatch]);
+    if (isEmpty(user)) {
+      dispatch(displayUser());
+    }
+  }, [dispatch, user]);
 
   return (
     <ButtonsWrapper>
@@ -32,28 +34,6 @@ export default function Signout() {
     </ButtonsWrapper>
   );
 }
-
-// export default function Signout({ firstName }) {
-//   const dispatch = useDispatch();
-
-//   function handleSignOut() {
-//     dispatch(logOut());
-//   }
-
-//   return (
-//     <div>
-//       <Button to="/profile">
-//         <StyledFontAwesomeIcon icon={faCircleUser} />
-//         {firstName}
-//       </Button>
-//       {/* <SignOutButton onClick={handleSignOut} to="/"> */}
-//       <SignOutButton onClick={() => dispatch(logOut())} to="/">
-//         <FontAwesomeIcon icon={faRightFromBracket} />
-//         Sign Out
-//       </SignOutButton>
-//     </div>
-//   );
-// }
 
 const ButtonsWrapper = styled.div`
   @media (max-width: 450px) {
@@ -88,7 +68,3 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
   text-decoration: none;
   margin-right: 0.5rem;
 `;
-
-//   .main-nav a.router-link-exact-active {
-//     color: #42b983;
-//   }

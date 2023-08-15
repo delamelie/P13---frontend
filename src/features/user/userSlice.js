@@ -1,11 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { displayUser } from "./userActions";
-import { logoutUser } from "../auth/authActions";
-//import { clearUser } from "./userActions";
-
-//import { createAction } from "@reduxjs/toolkit";
-
-//export const clearUser = createAction("user/clearUser");
 
 const initialState = {
   user: null,
@@ -16,11 +10,6 @@ const initialState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  // reducers: {
-  //   clearUser: (state) => {
-  //     state.user = null;
-  //   },
-  // },
   extraReducers: (builder) => {
     builder
       .addCase(displayUser.pending, (state) => {
@@ -33,7 +22,7 @@ export const userSlice = createSlice({
         state.user = action.payload.body;
         state.error = null;
       })
-      .addCase(displayUser.rejected, (action, state) => {
+      .addCase(displayUser.rejected, (state, action) => {
         state.loading = false;
         state.user = null;
         state.error = action.payload;

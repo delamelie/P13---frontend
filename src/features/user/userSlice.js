@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { displayUser } from "./displayUser";
-import { logoutUser } from "../loginLogoutUser/logoutUser";
+import { displayUser } from "./userActions";
+import { logoutUser } from "../auth/authActions";
+//import { clearUser } from "./userActions";
+
+//import { createAction } from "@reduxjs/toolkit";
+
+//export const clearUser = createAction("user/clearUser");
 
 const initialState = {
   user: null,
@@ -11,6 +16,11 @@ const initialState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
+  // reducers: {
+  //   clearUser: (state) => {
+  //     state.user = null;
+  //   },
+  // },
   extraReducers: (builder) => {
     builder
       .addCase(displayUser.pending, (state) => {
@@ -26,15 +36,8 @@ export const userSlice = createSlice({
       .addCase(displayUser.rejected, (action, state) => {
         state.loading = false;
         state.user = null;
-        //state.error = "A server error occurred. Please try again later.";
-        state.error = action.error.message;
+        state.error = action.payload;
       });
-    // .addCase(logoutUser, (state) => {
-    //   state.loading = false;
-    //   state.user = null;
-    //   state.error = null;
-    //   //return initialState;
-    // });
   },
 });
 

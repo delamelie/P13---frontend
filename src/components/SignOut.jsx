@@ -7,8 +7,8 @@ import {
   faCircleUser,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { displayUser } from "../features/displayUser/displayUser";
-import logoutUser from "../features/displayUser/userSlice";
+import { displayUser } from "../features/user/userActions";
+import { logoutUser } from "../features/auth/authActions";
 import { isEmpty } from "./utils/isEmpty.js";
 
 export default function Signout() {

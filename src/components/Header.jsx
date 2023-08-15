@@ -6,7 +6,7 @@ import SignIn from "../components/SignIn";
 import SignOut from "../components/SignOut";
 
 export default function Header() {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   return (
     <HeaderNav>

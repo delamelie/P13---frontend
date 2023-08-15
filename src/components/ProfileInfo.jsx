@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { displayUser } from "../features/displayUser/displayUser";
-import { updateUser } from "../features/updateUser/updateUser";
+import { displayUser } from "../features/user/userActions";
+import { updateUser } from "../features/update/updateActions";
 import { isEmpty } from "./utils/isEmpty.js";
 
 export default function ProfileInfo() {
@@ -71,7 +71,6 @@ export default function ProfileInfo() {
                 Cancel
               </SaveCancelButton>
             </div>
-            {/* {error && <ErrorMessage>{error}</ErrorMessage>} */}
           </form>
         ) : (
           <div>

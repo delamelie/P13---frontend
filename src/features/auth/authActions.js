@@ -1,9 +1,9 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import axios, { LOGIN_URL } from "../../api/api";
 
 // export const loginUser = createAsyncThunk(
 //   "auth/loginUser",
-//   async ({ email, password }, { rejectWithValue }) => {
+//   async ({ email, password }) => {
 //     const credentials = { email, password };
 //     const headers = {
 //       headers: {
@@ -33,8 +33,13 @@ export const loginUser = createAsyncThunk(
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       } else {
-        return rejectWithValue(error.message);
+        console.log(error.message);
+        return rejectWithValue(
+          "A server error occurred. Please try again later."
+        );
       }
     }
   }
 );
+
+export const logoutUser = createAction("auth/logoutUser");

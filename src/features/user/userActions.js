@@ -1,10 +1,10 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import axios, { PROFILE_URL } from "../../api/api";
 
 export const displayUser = createAsyncThunk(
   "user/displayUser",
 
-  async (arg, { getState }) => {
+  async (arg, { getState, rejectWithValue }) => {
     const state = getState();
     const token = state.auth.token;
 
@@ -18,10 +18,15 @@ export const displayUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error.message);
-      throw error;
+      // throw error;
+      return rejectWithValue(
+        "A server error occurred. Please try again later."
+      );
     }
   }
 );
+
+//export const clearUser = createAction("user/clearUser");
 
 // export const displayUser = createAsyncThunk(
 //   "user/displayUser",

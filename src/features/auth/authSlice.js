@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser } from "./loginUser";
-import { logoutUser } from "./logoutUser";
+import { loginUser } from "./authActions";
+
+import { userSlice } from "../user/userSlice";
 
 const initialState = {
   loading: false,
@@ -12,6 +13,16 @@ const initialState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
+  reducers: {
+    logoutUser: (state) => {
+      state.loading = false;
+      state.token = null;
+      state.isLoggedIn = false;
+      state.error = null;
+      console.log("te");
+      //userSlice.caseReducers.clearUser();
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -31,22 +42,16 @@ export const authSlice = createSlice({
         state.token = null;
         state.isLoggedIn = false;
         state.error = action.payload;
-
-        // if (action.error.message == "Request failed with status code 400") {
-        //   console.log(action.error.message);
-        //   state.error = "Invalid email or password";
-        // } else {
-        //   console.log(action.error.message);
-        //   state.error = action.error.message;
-        // }
-      })
-      .addCase(logoutUser, (state) => {
-        state.loading = false;
-        state.token = null;
-        state.isLoggedIn = false;
-        state.error = null;
-        //return initialState;
       });
+    // .addCase(logoutUser, (state) => {
+    //   // state.loading = false;
+    //   // state.token = null;
+    //   // state.isLoggedIn = false;
+    //   // state.error = null;
+    //   console.log("coucou");
+    //   //userSlice.caseReducers.clearUser();
+    //   return initialState;
+    // });
   },
 });
 

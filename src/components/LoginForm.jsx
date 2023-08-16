@@ -22,7 +22,7 @@ export default function LoginForm() {
     e.preventDefault();
     let userCredentials = { email, password };
     dispatch(loginUser(userCredentials)).then((result) => {
-      if (result.payload) {
+      if (result.payload.body) {
         setEmail("");
         setPassword("");
         navigate("/profile");

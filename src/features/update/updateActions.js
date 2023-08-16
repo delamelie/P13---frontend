@@ -4,15 +4,14 @@ import { displayUser } from "../user/userActions";
 
 export const updateUser = createAsyncThunk(
   "update/updateUser",
-  async (
-    { newFirstName, newLastName },
-    { getState, dispatch, rejectWithValue }
-  ) => {
+  async (updatedData, { getState, dispatch, rejectWithValue }) => {
     const state = getState();
-    const updatedData = { firstName: newFirstName, lastName: newLastName };
     const token = state.auth.token;
     const headers = {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     };
 
     try {

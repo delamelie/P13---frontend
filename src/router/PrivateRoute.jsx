@@ -6,5 +6,5 @@ export const PrivateRoute = ({ children }) => {
 
   if (loading) return null;
 
-  return isLoggedIn ? children : <Navigate to="/login" />;
+  return isLoggedIn ? children : <Navigate to="/login" replace />;
 };

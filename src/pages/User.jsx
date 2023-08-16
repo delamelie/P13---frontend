@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Header from "../components/Header";
@@ -13,11 +12,10 @@ export default function User() {
   }, []);
 
   const { loading, error } = useSelector((state) => state.user);
-  const { isLoggedIn } = useSelector((state) => state.auth);
 
   if (loading) return <div>Loading...</div>;
 
-  return isLoggedIn ? (
+  return (
     <div>
       <Header />
       {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -29,8 +27,6 @@ export default function User() {
       </main>
       <Footer />
     </div>
-  ) : (
-    <Navigate to="/login" replace />
   );
 }
 

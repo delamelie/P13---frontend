@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { displayUser } from "../features/user/userActions";
 import { logoutUser } from "../features/auth/authSlice";
+import { clearUser } from "../features/user/userSlice";
 import { isEmpty } from "./utils/isEmpty.js";
 
 export default function Signout() {
@@ -21,13 +22,18 @@ export default function Signout() {
     }
   }, [dispatch, user]);
 
+  const handleLogout = () => {
+    dispatch(clearUser());
+    dispatch(logoutUser());
+  };
+
   return (
     <ButtonsWrapper>
       <Button to="/profile">
         <StyledFontAwesomeIcon icon={faCircleUser} />
         {!isEmpty(user) && user.firstName}
       </Button>
-      <SignOutButton onClick={() => dispatch(logoutUser())} to="/">
+      <SignOutButton onClick={handleLogout} to="/">
         <FontAwesomeIcon icon={faRightFromBracket} />
         Sign Out
       </SignOutButton>

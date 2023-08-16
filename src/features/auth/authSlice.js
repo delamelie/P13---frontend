@@ -20,21 +20,21 @@ export const authSlice = createSlice({
     builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
+        state.error = null;
         state.token = null;
         state.isLoggedIn = false;
-        state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
         state.token = action.payload.body.token;
         state.isLoggedIn = true;
-        state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
         state.token = null;
         state.isLoggedIn = false;
-        state.error = action.payload;
       });
   },
 });

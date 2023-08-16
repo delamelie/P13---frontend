@@ -24,7 +24,7 @@ export default function ProfileInfo() {
     e.preventDefault();
     setNewFirstName(newFirstName);
     setNewLastName(newLastName);
-    dispatch(updateUser({ newFirstName, newLastName }));
+    dispatch(updateUser({ firstName: newFirstName, lastName: newLastName }));
     setShowFieldInput(false);
     setNewFirstName("");
     setNewLastName("");
@@ -41,9 +41,9 @@ export default function ProfileInfo() {
                 id="firstName"
                 type="text"
                 placeholder={!isEmpty(user) && user.firstName}
+                onChange={(e) => setNewFirstName(e.target.value.trim())}
                 value={newFirstName}
                 required
-                onChange={(e) => setNewFirstName(e.target.value.trim())}
               />
               <label htmlFor="firstName" />
 
@@ -51,22 +51,24 @@ export default function ProfileInfo() {
                 id="lastName"
                 type="text"
                 placeholder={!isEmpty(user) && user.lastName}
+                onChange={(e) => setNewLastName(e.target.value.trim())}
                 value={newLastName}
                 required
-                onChange={(e) => setNewLastName(e.target.value.trim())}
               />
               <label htmlFor="lastName" />
             </div>
             <div>
-              <SaveCancelButton type="submit">
-                {loading ? "Loading..." : "Save"}
-              </SaveCancelButton>
-              <SaveCancelButton
+              <SaveButton
+                type="submit"
+                value={loading ? "Loading..." : "Save"}
+              />
+
+              <CancelButton
                 type="button"
                 onClick={() => setShowFieldInput(!showFieldInput)}
               >
                 Cancel
-              </SaveCancelButton>
+              </CancelButton>
             </div>
           </form>
         ) : (
@@ -109,9 +111,19 @@ const Shared = styled.button`
 
 const EditButton = styled(Shared)``;
 
-const SaveCancelButton = styled(Shared)`
+const CancelButton = styled(Shared)`
   width: 70px;
   margin: 0 5px;
+`;
+
+const SaveButton = styled.input`
+  width: 70px;
+  margin: 0 5px;
+  padding: 10px;
+  background-color: #00bc77;
+  color: #fff;
+  font-weight: bold;
+  border-color: #00bc77;
 `;
 
 const ErrorMessage = styled.div`

@@ -3,9 +3,8 @@ import axios, { LOGIN_URL } from "../../api/api";
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async ({ email, password }, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue }) => {
     try {
-      const credentials = { email, password };
       const headers = {
         headers: {
           "Content-Type": "application/json",

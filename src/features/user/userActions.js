@@ -8,7 +8,10 @@ export const displayUser = createAsyncThunk(
       const state = getState();
       const token = state.auth.token;
       const headers = {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       };
       const response = await axios.post(PROFILE_URL, {}, headers);
       return response.data;

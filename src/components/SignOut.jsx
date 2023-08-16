@@ -10,6 +10,7 @@ import {
 import { displayUser } from "../features/user/userActions";
 import { logoutUser } from "../features/auth/authSlice";
 import { clearUser } from "../features/user/userSlice";
+import { clearUpdate } from "../features/update/updateSlice";
 import { isEmpty } from "./utils/isEmpty.js";
 
 export default function Signout() {
@@ -24,6 +25,7 @@ export default function Signout() {
 
   const handleLogout = () => {
     dispatch(clearUser());
+    dispatch(clearUpdate());
     dispatch(logoutUser());
   };
 

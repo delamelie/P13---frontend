@@ -9,6 +9,11 @@ const initialState = {
 const updateSlice = createSlice({
   name: "update",
   initialState,
+  reducers: {
+    clearUpdate: () => {
+      return initialState;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(updateUser.pending, (state) => {
@@ -27,3 +32,5 @@ const updateSlice = createSlice({
 });
 
 export default updateSlice.reducer;
+
+export const { clearUpdate } = updateSlice.actions;

@@ -26,6 +26,9 @@ const HeaderNav = styled.nav`
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
+  @media (max-width: 400px) {
+    flex-direction: column;
+  }
 `;
 
 const LogoNavLink = styled(NavLink)`

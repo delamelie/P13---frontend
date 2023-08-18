@@ -8,6 +8,7 @@ export const displayUser = createAsyncThunk(
       const state = getState();
       const token = state.auth.token;
       const data = await displayUserApi(token);
+      console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue(

@@ -18,7 +18,7 @@ export default function ProfileInfo() {
     if (isEmpty(user)) {
       dispatch(displayUser());
     }
-  }, [dispatch, user]);
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();

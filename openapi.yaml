@@ -1,0 +1,435 @@
+openapi: 3.0.1
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001/api/v1
+paths:
+  /user/login:
+    post:
+      tags:
+        - User Module
+      summary: Login
+      description: API for Login
+      requestBody:
+        description: Login Payload
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/Login"
+        required: true
+      responses:
+        200:
+          description: Login Successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        400:
+          description: Invalid Fields
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      x-codegen-request-body-name: body
+  /user/signup:
+    post:
+      tags:
+        - User Module
+      summary: Signup
+      description: API for Signup
+      requestBody:
+        description: Signup Payload
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        200:
+          description: Signup Successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        400:
+          description: Invalid Fields
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      x-codegen-request-body-name: body
+  /user/profile:
+    put:
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for updating a user profile
+      parameters:
+        - name: Authorization
+          in: header
+          description: Attach Bearer JWT token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update user profile attributes
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/UserProfile"
+        required: true
+      responses:
+        200:
+          description: User profile retrieved successully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        400:
+          description: Invalid Fields
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: body
+    post:
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for fetching a user profile
+      parameters:
+        - name: Authorization
+          in: header
+          description: Attach Bearer JWT token
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: User profile retrieved successully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        400:
+          description: Invalid Fields
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+        - Bearer: []
+  /user/{accountId}/transactions:
+    get:
+      tags:
+        - Transaction Module
+      summary: Transaction API
+      description: API for browsing user’s monthly transactions on each separate account
+      parameters:
+        - name: Authorization
+          in: header
+          description: Attach Bearer JWT token
+          required: true
+          schema:
+            type: string
+        - name: accountId
+          in: path
+          description: Id of account to browse
+          required: true
+          schema:
+            type: string
+        - name: selectedMonth
+          in: query
+          description:
+            Selected month (select a number between 1 and 12). If nothing
+            is entered, current month will be returned.
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Monthly transactions retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountResponse"
+        401:
+          description: Unauthorized
+          content: {}
+        404:
+          description: Account was not found
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+        - Bearer: []
+  /user/transactions/{transactionId}:
+    get:
+      tags:
+        - Transaction Module
+      summary: Transaction API
+      description: API for viewing a specific transaction
+      parameters:
+        - name: Authorization
+          in: header
+          description: Attach Bearer JWT token
+          required: true
+          schema:
+            type: string
+        - name: transactionId
+          in: path
+          description: Id of transaction to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Transaction retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionResponse"
+        401:
+          description: Unauthorized
+          content: {}
+        404:
+          description: Transaction was not found
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+        - Bearer: []
+    patch:
+      tags:
+        - Transaction Module
+      summary: Transaction API
+      description:
+        API for creating, updating or deleting a transaction's additional
+        information
+      parameters:
+        - name: Authorization
+          in: header
+          description: Attach Bearer JWT token
+          required: true
+          schema:
+            type: string
+        - name: transactionId
+          in: path
+          description: Id of transaction to modify
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Payload for updating transaction information attributes
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/TransactionAdditionalInfo"
+        required: true
+      responses:
+        200:
+          description: Transaction modified successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionAdditionalInfoResponse"
+        400:
+          description: Invalid Fields
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          description: user email
+        password:
+          type: string
+          description: user password
+        firstName:
+          type: string
+          description: user first name
+        lastName:
+          type: string
+          description: user last name
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          description: user email
+        password:
+          type: string
+          description: user password
+    ApiResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        body:
+          type: object
+          properties:
+            id:
+              type: string
+            email:
+              type: string
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+    UserProfile:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+    Account:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+          description: account number
+          example: "4523894527"
+        accountType:
+          type: string
+          description: account type
+          example: Saving account
+        accountBalance:
+          type: number
+          description: account balance
+          format: double
+    Transactions:
+      type: array
+      items:
+        type: object
+        properties:
+          transactionId:
+            type: string
+            description: transaction id
+            example: UK7895687995644
+          transactionDate:
+            type: string
+            description: transaction date
+            example: 2020-06-20
+          transactionDescription:
+            type: string
+            description: transaction description
+            example: Golden Sun Bakery
+          transactionAmount:
+            type: number
+            description: transaction amount
+            format: double
+            example: 50.0
+          transactionBalance:
+            type: number
+            description: account balance after transaction
+            format: double
+    Transaction:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id
+          example: UK7895687995644
+        transactionDate:
+          type: string
+          description: transaction date
+          example: 2020-06-20
+        transactionDescription:
+          type: string
+          description: transaction description
+          example: Golden Sun Bakery
+        transactionAmount:
+          type: number
+          description: transaction amount
+          format: double
+          example: 50.0
+        transactionBalance:
+          type: number
+          description: account balance after transaction
+          format: double
+        transactionType:
+          type: string
+          description: transaction type
+          example: Electronic
+        transactionCategory:
+          type: string
+          description: transaction type
+          example: Food
+        transactionNotes:
+          type: string
+          description: transaction notes
+          example: Recurring purchase
+    TransactionAdditionalInfo:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id
+          example: UK7895687995644
+        transactionCategory:
+          type: string
+          description: transaction type
+          example: Food
+        transactionNotes:
+          type: string
+          description: transaction additional information
+          example: Recurring purchase
+    AccountResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Monthly transactions retrieved successfully
+        body:
+          $ref: "#/components/schemas/Transactions"
+    TransactionResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Transaction retrieved successfully
+        body:
+          $ref: "#/components/schemas/Transaction"
+    TransactionAdditionalInfoResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Transaction's additional information modified successfully
+        body:
+          $ref: "#/components/schemas/TransactionAdditionalInfo"
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header

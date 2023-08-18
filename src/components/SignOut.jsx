@@ -17,11 +17,11 @@ export default function Signout() {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (isEmpty(user)) {
-      dispatch(displayUser());
-    }
-  }, [dispatch, user]);
+  // useEffect(() => {
+  //   if (isEmpty(user)) {
+  //     dispatch(displayUser());
+  //   }
+  // }, [dispatch, user]);
 
   const handleLogout = () => {
     dispatch(clearUser());
